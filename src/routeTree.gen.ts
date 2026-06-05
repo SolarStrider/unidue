@@ -13,6 +13,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedGradesRouteImport } from './routes/_authenticated/grades'
 import { Route as AuthenticatedCalendarRouteImport } from './routes/_authenticated/calendar'
 import { Route as AuthenticatedAssignmentsRouteImport } from './routes/_authenticated/assignments'
 
@@ -35,6 +36,11 @@ const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedGradesRoute = AuthenticatedGradesRouteImport.update({
+  id: '/grades',
+  path: '/grades',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedCalendarRoute = AuthenticatedCalendarRouteImport.update({
   id: '/calendar',
   path: '/calendar',
@@ -53,12 +59,14 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/assignments': typeof AuthenticatedAssignmentsRoute
   '/calendar': typeof AuthenticatedCalendarRoute
+  '/grades': typeof AuthenticatedGradesRoute
 }
 export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/assignments': typeof AuthenticatedAssignmentsRoute
   '/calendar': typeof AuthenticatedCalendarRoute
+  '/grades': typeof AuthenticatedGradesRoute
   '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesById {
@@ -68,13 +76,26 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/assignments': typeof AuthenticatedAssignmentsRoute
   '/_authenticated/calendar': typeof AuthenticatedCalendarRoute
+  '/_authenticated/grades': typeof AuthenticatedGradesRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/reset-password' | '/assignments' | '/calendar'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/reset-password'
+    | '/assignments'
+    | '/calendar'
+    | '/grades'
   fileRoutesByTo: FileRoutesByTo
-  to: '/auth' | '/reset-password' | '/assignments' | '/calendar' | '/'
+  to:
+    | '/auth'
+    | '/reset-password'
+    | '/assignments'
+    | '/calendar'
+    | '/grades'
+    | '/'
   id:
     | '__root__'
     | '/_authenticated'
@@ -82,6 +103,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/_authenticated/assignments'
     | '/_authenticated/calendar'
+    | '/_authenticated/grades'
     | '/_authenticated/'
   fileRoutesById: FileRoutesById
 }
@@ -121,6 +143,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/grades': {
+      id: '/_authenticated/grades'
+      path: '/grades'
+      fullPath: '/grades'
+      preLoaderRoute: typeof AuthenticatedGradesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/calendar': {
       id: '/_authenticated/calendar'
       path: '/calendar'
@@ -141,12 +170,14 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAssignmentsRoute: typeof AuthenticatedAssignmentsRoute
   AuthenticatedCalendarRoute: typeof AuthenticatedCalendarRoute
+  AuthenticatedGradesRoute: typeof AuthenticatedGradesRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAssignmentsRoute: AuthenticatedAssignmentsRoute,
   AuthenticatedCalendarRoute: AuthenticatedCalendarRoute,
+  AuthenticatedGradesRoute: AuthenticatedGradesRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
 }
 
