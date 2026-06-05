@@ -8,10 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { AlertTriangle, CheckCircle2, Clock, Flame, ListChecks, Target, Trash2 } from "lucide-react";
-import { parseISO, isToday, isPast, startOfDay } from "date-fns";
+import { parseISO, isToday, isPast } from "date-fns";
 import { dueLabel, formatDate } from "@/lib/studiq/date-format";
 import type { Assignment, DailyGoal } from "@/lib/studiq/types";
-import { toast } from "sonner";
+
 
 export const Route = createFileRoute("/_authenticated/")({
   component: Dashboard,
@@ -170,6 +170,3 @@ function Stat({ icon: Icon, label, value, tone }: { icon: React.ElementType; lab
     </Card>
   );
 }
-
-// We export for unused import warning suppression
-void startOfDay;
