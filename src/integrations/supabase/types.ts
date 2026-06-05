@@ -14,7 +14,159 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      assignments: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          due_date: string
+          id: string
+          notes: string
+          priority: string
+          status: string
+          subject: string
+          title: string
+          type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          due_date: string
+          id?: string
+          notes?: string
+          priority?: string
+          status?: string
+          subject: string
+          title: string
+          type: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          due_date?: string
+          id?: string
+          notes?: string
+          priority?: string
+          status?: string
+          subject?: string
+          title?: string
+          type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      daily_goals: {
+        Row: {
+          created_at: string
+          date: string
+          done: boolean
+          id: string
+          text: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          date?: string
+          done?: boolean
+          id?: string
+          text: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          done?: boolean
+          id?: string
+          text?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      grades: {
+        Row: {
+          assignment: string
+          created_at: string
+          grade_value: string
+          grading_system: string
+          id: string
+          subject: string
+          user_id: string
+        }
+        Insert: {
+          assignment: string
+          created_at?: string
+          grade_value: string
+          grading_system: string
+          id?: string
+          subject: string
+          user_id: string
+        }
+        Update: {
+          assignment?: string
+          created_at?: string
+          grade_value?: string
+          grading_system?: string
+          id?: string
+          subject?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          date_format: string
+          grading_system: string
+          id: string
+          name: string
+          theme: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          date_format?: string
+          grading_system?: string
+          id: string
+          name?: string
+          theme?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          date_format?: string
+          grading_system?: string
+          id?: string
+          name?: string
+          theme?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      streaks: {
+        Row: {
+          count: number
+          last_completion_date: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          count?: number
+          last_completion_date?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          count?: number
+          last_completion_date?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
