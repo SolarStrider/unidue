@@ -15,6 +15,15 @@ import type { Assignment, DailyGoal } from "@/lib/studiq/types";
 
 export const Route = createFileRoute("/_authenticated/")({
   component: Dashboard,
+  head: () => ({
+    meta: [
+      { title: "Dashboard | Studiq" },
+      { name: "description", content: "Your Studiq dashboard: today's goals, upcoming deadlines, and study streaks at a glance." },
+      { property: "og:title", content: "Dashboard | Studiq" },
+      { property: "og:description", content: "Your Studiq dashboard: today's goals, upcoming deadlines, and study streaks at a glance." },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
 });
 
 function Dashboard() {
