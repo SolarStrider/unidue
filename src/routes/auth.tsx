@@ -7,8 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Sparkles } from "lucide-react";
 import { toast } from "sonner";
+import studiqIcon from "@/assets/studiq-icon.svg.asset.json";
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
@@ -76,9 +76,7 @@ function AuthPage() {
   return (
     <div data-theme="midnight" className="min-h-screen flex flex-col items-center justify-center bg-background p-4">
       <div className="mb-6 flex flex-col items-center gap-2">
-        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-          <Sparkles className="h-6 w-6" />
-        </div>
+        <img src={studiqIcon.url} alt="Studiq" className="h-14 w-14 rounded-xl" />
         <h1 className="text-3xl font-bold tracking-tight text-foreground">Studiq</h1>
         <p className="text-sm text-muted-foreground">Your global college task tracker</p>
       </div>
