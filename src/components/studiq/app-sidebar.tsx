@@ -1,5 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, ListChecks, CalendarDays, GraduationCap, Timer, Settings, Sparkles } from "lucide-react";
+import { LayoutDashboard, ListChecks, CalendarDays, GraduationCap, Timer, Settings } from "lucide-react";
+import studiqIcon from "@/assets/studiq-icon.svg.asset.json";
 import {
   Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent,
   SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
@@ -20,9 +21,7 @@ export function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarHeader>
         <Link to="/" className="flex items-center gap-2 px-2 py-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground shrink-0">
-            <Sparkles className="h-5 w-5" />
-          </div>
+          <img src={studiqIcon.url} alt="Studiq" className="h-9 w-9 rounded-lg shrink-0" />
           <div className="flex flex-col leading-tight group-data-[collapsible=icon]:hidden">
             <span className="text-base font-bold tracking-tight">Studiq</span>
             <span className="text-[10px] text-muted-foreground">by SolarStrider</span>
