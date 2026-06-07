@@ -176,7 +176,7 @@ function AssignmentsPage() {
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className={`text-base font-semibold ${a.status === "completed" ? "line-through text-muted-foreground" : ""}`}>{a.title}</h3>
+                      <h2 className={`text-base font-semibold ${a.status === "completed" ? "line-through text-muted-foreground" : ""}`}>{a.title}</h2>
                       <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] uppercase tracking-wide text-muted-foreground">{a.type}</span>
                       <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${
                         d.tone === "overdue" ? "bg-destructive/20 text-destructive" :
@@ -195,8 +195,8 @@ function AssignmentsPage() {
                     <Button size="icon" variant="ghost" asChild>
                       <a href={googleCalendarUrl(a)} target="_blank" rel="noopener noreferrer" title="Add to Google Calendar"><CalendarPlus className="h-4 w-4" /></a>
                     </Button>
-                    <Button size="icon" variant="ghost" onClick={() => openEdit(a)}><Pencil className="h-4 w-4" /></Button>
-                    <Button size="icon" variant="ghost" onClick={() => remove(a.id)}><Trash2 className="h-4 w-4" /></Button>
+                    <Button size="icon" variant="ghost" aria-label={`Edit ${a.title}`} onClick={() => openEdit(a)}><Pencil className="h-4 w-4" /></Button>
+                    <Button size="icon" variant="ghost" aria-label={`Delete ${a.title}`} onClick={() => remove(a.id)}><Trash2 className="h-4 w-4" /></Button>
                   </div>
                 </div>
               </CardContent>
