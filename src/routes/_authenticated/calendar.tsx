@@ -9,6 +9,15 @@ import type { Assignment } from "@/lib/studiq/types";
 
 export const Route = createFileRoute("/_authenticated/calendar")({
   component: CalendarPage,
+  head: () => ({
+    meta: [
+      { title: "Calendar | Studiq" },
+      { name: "description", content: "Visualize assignments and study events on a monthly calendar view." },
+      { property: "og:title", content: "Calendar | Studiq" },
+      { property: "og:description", content: "Visualize assignments and study events on a monthly calendar view." },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
 });
 
 function CalendarPage() {
