@@ -14,6 +14,15 @@ import { SUBJECTS, type Grade } from "@/lib/studiq/types";
 
 export const Route = createFileRoute("/_authenticated/grades")({
   component: GradesPage,
+  head: () => ({
+    meta: [
+      { title: "Grades | Studiq" },
+      { name: "description", content: "Track grades across subjects with your country's grading system and see your GPA at a glance." },
+      { property: "og:title", content: "Grades | Studiq" },
+      { property: "og:description", content: "Track grades across subjects with your country's grading system and see your GPA at a glance." },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
 });
 
 function GradesPage() {
