@@ -80,12 +80,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Studiq — Your global college task tracker" },
-      { name: "description", content: "Track assignments, deadlines, grades and study sessions. Free forever for students worldwide. Made by SolarStrider." },
+      { name: "description", content: "Track assignments, deadlines, grades and study sessions. Free forever for students worldwide." },
       { name: "author", content: "SolarStrider" },
       { property: "og:title", content: "Studiq — Your global college task tracker" },
       { property: "og:description", content: "Track assignments, deadlines, grades and study sessions. Free forever for students worldwide." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "Studiq — Your global college task tracker" },
+      { name: "twitter:description", content: "Track assignments, deadlines, grades and study sessions. Free forever for students worldwide." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/454efcd3-9435-4b78-8e24-e012456c19b4/id-preview-372634db--49fdcfae-e9d1-439c-ab19-79fa2ce3a36b.lovable.app-1780818191309.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/454efcd3-9435-4b78-8e24-e012456c19b4/id-preview-372634db--49fdcfae-e9d1-439c-ab19-79fa2ce3a36b.lovable.app-1780818191309.png" },
     ],
     links: [
       {
