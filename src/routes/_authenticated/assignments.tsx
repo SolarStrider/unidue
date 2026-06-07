@@ -18,6 +18,15 @@ import { googleCalendarUrl } from "@/lib/studiq/google-calendar";
 
 export const Route = createFileRoute("/_authenticated/assignments")({
   component: AssignmentsPage,
+  head: () => ({
+    meta: [
+      { title: "Assignments | Studiq" },
+      { name: "description", content: "Manage college assignments, deadlines, priorities, and progress in one place." },
+      { property: "og:title", content: "Assignments | Studiq" },
+      { property: "og:description", content: "Manage college assignments, deadlines, priorities, and progress in one place." },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
 });
 
 type FormState = {
