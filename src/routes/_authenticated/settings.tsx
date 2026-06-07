@@ -13,6 +13,15 @@ import { GRADING_SYSTEM_NAMES } from "@/lib/studiq/grading-systems";
 
 export const Route = createFileRoute("/_authenticated/settings")({
   component: SettingsPage,
+  head: () => ({
+    meta: [
+      { title: "Settings | Studiq" },
+      { name: "description", content: "Customize your Studiq profile, theme, date format, and grading system." },
+      { property: "og:title", content: "Settings | Studiq" },
+      { property: "og:description", content: "Customize your Studiq profile, theme, date format, and grading system." },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
 });
 
 const THEMES = [
