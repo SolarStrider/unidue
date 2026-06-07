@@ -1,0 +1,9 @@
+# Studiq
+
+> Studiq is a free global college task tracker. Students manage assignments, deadlines, grades, and focused Pomodoro study sessions in one place.
+
+Studiq is made by SolarStrider and is free forever for students worldwide. It supports country-specific grading systems and date formats.
+
+## Pages
+
+- [Home](/): Marketing landing for Studiq.
