@@ -13,6 +13,16 @@ import studiqIcon from "@/assets/studiq-icon.svg.asset.json";
 export const Route = createFileRoute("/auth")({
   ssr: false,
   component: AuthPage,
+  head: () => ({
+    meta: [
+      { title: "Sign in to Studiq" },
+      { name: "description", content: "Sign in or create a free Studiq account to track assignments, deadlines, grades and study sessions." },
+      { property: "og:title", content: "Sign in to Studiq" },
+      { property: "og:description", content: "Sign in or create a free Studiq account to track assignments, deadlines, grades and study sessions." },
+      { property: "og:url", content: "https://studiq-global-tracker.lovable.app/auth" },
+    ],
+    links: [{ rel: "canonical", href: "https://studiq-global-tracker.lovable.app/auth" }],
+  }),
 });
 
 function AuthPage() {
@@ -74,10 +84,10 @@ function AuthPage() {
   }
 
   return (
-    <div data-theme="midnight" className="min-h-screen flex flex-col items-center justify-center bg-background p-4">
+    <main data-theme="midnight" className="min-h-screen flex flex-col items-center justify-center bg-background p-4">
       <div className="mb-6 flex flex-col items-center gap-2">
         <img src={studiqIcon.url} alt="Studiq" className="h-14 w-14 rounded-xl" />
-        <h1 className="text-3xl font-bold tracking-tight text-foreground">Studiq</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-foreground">Sign in to Studiq</h1>
         <p className="text-sm text-muted-foreground">Your global college task tracker</p>
       </div>
       <Card className="w-full max-w-md">
@@ -137,6 +147,6 @@ function AuthPage() {
         </CardContent>
       </Card>
       <p className="mt-6 text-xs text-muted-foreground">Made by SolarStrider · Free forever for students worldwide</p>
-    </div>
+    </main>
   );
 }
