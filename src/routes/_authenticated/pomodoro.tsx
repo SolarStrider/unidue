@@ -7,6 +7,15 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/pomodoro")({
   component: PomodoroPage,
+  head: () => ({
+    meta: [
+      { title: "Pomodoro Timer | Studiq" },
+      { name: "description", content: "Run focused Pomodoro study sessions and log your streaks in Studiq." },
+      { property: "og:title", content: "Pomodoro Timer | Studiq" },
+      { property: "og:description", content: "Run focused Pomodoro study sessions and log your streaks in Studiq." },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
 });
 
 const PRESETS = [

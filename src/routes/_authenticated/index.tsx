@@ -15,6 +15,15 @@ import type { Assignment, DailyGoal } from "@/lib/studiq/types";
 
 export const Route = createFileRoute("/_authenticated/")({
   component: Dashboard,
+  head: () => ({
+    meta: [
+      { title: "Dashboard | Studiq" },
+      { name: "description", content: "Your Studiq dashboard: today's goals, upcoming deadlines, and study streaks at a glance." },
+      { property: "og:title", content: "Dashboard | Studiq" },
+      { property: "og:description", content: "Your Studiq dashboard: today's goals, upcoming deadlines, and study streaks at a glance." },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
 });
 
 function Dashboard() {
@@ -144,7 +153,7 @@ function Dashboard() {
                 <li key={g.id} className="flex items-center gap-2 rounded-lg border border-border bg-card/50 p-2.5">
                   <Checkbox checked={g.done} onCheckedChange={() => toggleGoal(g)} />
                   <span className={`flex-1 text-sm ${g.done ? "line-through text-muted-foreground" : ""}`}>{g.text}</span>
-                  <button onClick={() => deleteGoal(g.id)} className="text-muted-foreground hover:text-destructive">
+                  <button aria-label={`Delete goal: ${g.text}`} onClick={() => deleteGoal(g.id)} className="text-muted-foreground hover:text-destructive">
                     <Trash2 className="h-4 w-4" />
                   </button>
                 </li>
