@@ -31,9 +31,9 @@ function CalendarPage() {
           <p className="text-sm text-muted-foreground">Your deadlines at a glance.</p>
         </div>
         <div className="flex items-center gap-2">
-          <Button size="icon" variant="outline" onClick={() => setMonth(subMonths(month, 1))}><ChevronLeft className="h-4 w-4" /></Button>
+          <Button size="icon" variant="outline" aria-label="Previous month" onClick={() => setMonth(subMonths(month, 1))}><ChevronLeft className="h-4 w-4" /></Button>
           <div className="min-w-[160px] text-center font-semibold">{format(month, "MMMM yyyy")}</div>
-          <Button size="icon" variant="outline" onClick={() => setMonth(addMonths(month, 1))}><ChevronRight className="h-4 w-4" /></Button>
+          <Button size="icon" variant="outline" aria-label="Next month" onClick={() => setMonth(addMonths(month, 1))}><ChevronRight className="h-4 w-4" /></Button>
         </div>
       </div>
       <Card>
