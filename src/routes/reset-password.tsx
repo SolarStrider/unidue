@@ -10,6 +10,13 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/reset-password")({
   ssr: false,
   component: ResetPassword,
+  head: () => ({
+    meta: [
+      { title: "Reset your password — Studiq" },
+      { name: "description", content: "Set a new password for your Studiq account." },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
 });
 
 function ResetPassword() {
@@ -28,7 +35,8 @@ function ResetPassword() {
   }
 
   return (
-    <div data-theme="midnight" className="min-h-screen flex items-center justify-center bg-background p-4">
+    <main data-theme="midnight" className="min-h-screen flex flex-col items-center justify-center bg-background p-4">
+      <h1 className="mb-4 text-2xl font-bold tracking-tight text-foreground">Reset your password</h1>
       <Card className="w-full max-w-md">
         <CardHeader><CardTitle>Set a new password</CardTitle></CardHeader>
         <CardContent>
@@ -43,6 +51,6 @@ function ResetPassword() {
           </form>
         </CardContent>
       </Card>
-    </div>
+    </main>
   );
 }
