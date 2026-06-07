@@ -114,6 +114,15 @@ function SettingsPage() {
         </CardContent>
       </Card>
 
+      <Card>
+        <CardHeader><CardTitle>About</CardTitle></CardHeader>
+        <CardContent className="space-y-2 text-sm">
+          <p><span className="font-semibold text-foreground">Studiq</span> — Your global college task tracker.</p>
+          <p className="text-muted-foreground">Made by <span className="font-semibold text-primary">SolarStrider</span></p>
+          <p className="text-muted-foreground">Free forever for students worldwide.</p>
+        </CardContent>
+      </Card>
+
       <p className="text-center text-xs text-muted-foreground pt-4">
         Made by SolarStrider · Free forever for students worldwide
       </p>
