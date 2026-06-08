@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useProfile } from "@/hooks/use-profile";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -11,16 +10,19 @@ import { AlertTriangle, CheckCircle2, Clock, Flame, ListChecks, Target, Trash2 }
 import { parseISO, isToday, isPast } from "date-fns";
 import { dueLabel, formatDate } from "@/lib/studiq/date-format";
 import type { Assignment, DailyGoal } from "@/lib/studiq/types";
+import { TypingText } from "@/components/studiq/typing-text";
+import { CountUp } from "@/components/studiq/count-up";
+import { TerminalBar } from "@/components/studiq/terminal-bar";
 
 
 export const Route = createFileRoute("/_authenticated/")({
   component: Dashboard,
   head: () => ({
     meta: [
-      { title: "Dashboard | Studiq" },
-      { name: "description", content: "Your Studiq dashboard: today's goals, upcoming deadlines, and study streaks at a glance." },
-      { property: "og:title", content: "Dashboard | Studiq" },
-      { property: "og:description", content: "Your Studiq dashboard: today's goals, upcoming deadlines, and study streaks at a glance." },
+      { title: "Dashboard | Unidue" },
+      { name: "description", content: "Unidue terminal dashboard: today's goals, upcoming deadlines, and study streaks at a glance." },
+      { property: "og:title", content: "Dashboard | Unidue" },
+      { property: "og:description", content: "Unidue terminal dashboard: today's goals, upcoming deadlines, and study streaks at a glance." },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -78,59 +80,97 @@ function Dashboard() {
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Welcome back{profile?.name ? `, ${profile.name.split(" ")[0]}` : ""} 👋</h1>
-        <p className="text-sm text-muted-foreground">Here's your study overview for today.</p>
+      <div className="space-y-1.5">
+        <div className="text-[11px] uppercase tracking-[0.3em] text-muted-foreground" style={{ fontFamily: "var(--font-mono)" }}>
+          unidue@shell ~ %
+        </div>
+        <h1 className="text-2xl md:text-3xl text-[color:var(--color-cyber-cyan)] [text-shadow:0_0_12px_rgba(0,245,255,0.45)]">
+          <TypingText
+            text={`> WELCOME BACK, ${(profile?.name?.split(" ")[0] || "SOLARSTRIDER").toUpperCase()}_`}
+            speed={32}
+          />
+        </h1>
+        <p className="text-xs md:text-sm text-muted-foreground" style={{ fontFamily: "var(--font-mono)" }}>
+          <span className="text-[color:var(--color-cyber-green)]">{">"}</span>{" "}
+          <span className="text-foreground/80">{pending.length} TASKS PENDING</span>
+          <span className="mx-2 opacity-40">|</span>
+          <span className={overdue.length > 0 ? "text-[color:var(--color-cyber-red)]" : "text-foreground/60"}>
+            {overdue.length} OVERDUE
+          </span>
+          <span className="mx-2 opacity-40">|</span>
+          <span className="text-[color:var(--color-cyber-amber)]">{dueToday.length} DUE TODAY</span>
+        </p>
       </div>
 
       {overdue.length >= 3 && (
-        <div className="flex items-center gap-3 rounded-xl border border-destructive/40 bg-destructive/10 p-4 text-destructive-foreground">
-          <AlertTriangle className="h-5 w-5 shrink-0 text-destructive" />
-          <div className="text-sm">
-            <span className="font-semibold text-destructive">Heavy workload:</span>{" "}
-            <span className="text-foreground">You have {overdue.length} overdue assignments. Time to catch up!</span>
+        <div
+          className="cyber-card flex items-center gap-3 rounded-md border border-[color:var(--color-cyber-red)]/50 bg-[color:var(--color-cyber-red)]/10 p-4 text-foreground"
+          style={{ boxShadow: "0 0 24px -8px rgba(255,51,102,0.5)" }}
+        >
+          <AlertTriangle className="h-5 w-5 shrink-0 text-[color:var(--color-cyber-red)]" />
+          <div className="text-sm" style={{ fontFamily: "var(--font-mono)" }}>
+            <span className="text-[color:var(--color-cyber-red)]">[ALERT]</span>{" "}
+            <span>Workload critical — {overdue.length} overdue tasks detected.</span>
           </div>
         </div>
       )}
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-        <Stat icon={Clock} label="Pending" value={pending.length} />
-        <Stat icon={CheckCircle2} label="Completed" value={completed.length} />
-        <Stat icon={AlertTriangle} label="Overdue" value={overdue.length} tone="destructive" />
-        <Stat icon={Target} label="Due today" value={dueToday.length} tone="accent" />
-        <Stat icon={ListChecks} label="Completion" value={`${completionPct}%`} />
-        <Stat icon={Flame} label="Streak" value={`${streak}d`} tone="accent" />
+        <Stat icon={Clock} label="pending" value={pending.length} />
+        <Stat icon={CheckCircle2} label="completed" value={completed.length} tone="success" />
+        <Stat icon={AlertTriangle} label="overdue" value={overdue.length} tone="destructive" />
+        <Stat icon={Target} label="due_today" value={dueToday.length} tone="warning" />
+        <Stat icon={ListChecks} label="rate" value={`${completionPct}%`} />
+        <Stat icon={Flame} label="streak" value={`${streak}d`} tone="warning" />
       </div>
 
-      <Card>
-        <CardHeader><CardTitle className="text-sm font-medium">Overall progress</CardTitle></CardHeader>
-        <CardContent>
-          <Progress value={completionPct} />
-          <p className="mt-2 text-xs text-muted-foreground">{completed.length} of {assignments.length} assignments completed</p>
+      <Card className="cyber-card">
+        <CardHeader className="pb-2">
+          <CardTitle className="flex items-center justify-between text-xs uppercase tracking-[0.2em] text-muted-foreground" style={{ fontFamily: "var(--font-mono)" }}>
+            <span>// sys.progress</span>
+            <span className="text-[color:var(--color-cyber-cyan)]">{completed.length}/{assignments.length}</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-2">
+          <TerminalBar value={completionPct} segments={24} />
+          <p className="text-[11px] text-muted-foreground" style={{ fontFamily: "var(--font-mono)" }}>
+            {">"} {completed.length} of {assignments.length} tasks completed
+          </p>
         </CardContent>
       </Card>
 
       <div className="grid gap-6 md:grid-cols-2">
-        <Card>
-          <CardHeader><CardTitle>Upcoming deadlines</CardTitle></CardHeader>
+        <Card className="cyber-card">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-xs uppercase tracking-[0.2em] text-muted-foreground" style={{ fontFamily: "var(--font-mono)" }}>
+              // upcoming.queue
+            </CardTitle>
+          </CardHeader>
           <CardContent>
             {upcoming.length === 0 ? (
-              <p className="text-sm text-muted-foreground">Nothing due soon. Enjoy the calm 🌤️</p>
+              <p className="text-sm text-muted-foreground" style={{ fontFamily: "var(--font-mono)" }}>
+                {">"} queue empty // stand down 🌤
+              </p>
             ) : (
               <ul className="space-y-2">
                 {upcoming.map((a) => {
                   const d = dueLabel(a.due_date);
                   return (
-                    <li key={a.id} className="flex items-center justify-between rounded-lg border border-border bg-card/50 p-3">
+                    <li
+                      key={a.id}
+                      className="flex items-center justify-between rounded-md border border-[color:var(--color-cyber-cyan)]/15 bg-black/30 p-3 transition-colors hover:border-[color:var(--color-cyber-cyan)]/40"
+                    >
                       <div>
-                        <div className="text-sm font-medium">{a.title}</div>
-                        <div className="text-xs text-muted-foreground">{a.subject} · {formatDate(a.due_date, profile?.date_format)}</div>
+                        <div className="text-sm font-medium text-foreground">{a.title}</div>
+                        <div className="text-[11px] text-muted-foreground" style={{ fontFamily: "var(--font-mono)" }}>
+                          [{a.subject}] · {formatDate(a.due_date, profile?.date_format)}
+                        </div>
                       </div>
-                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${
-                        d.tone === "overdue" ? "bg-destructive/20 text-destructive" :
-                        d.tone === "today" ? "bg-primary/20 text-primary" :
-                        d.tone === "soon" ? "bg-yellow-500/20 text-yellow-500" :
-                        "bg-muted text-muted-foreground"
+                      <span className={`terminal-tag ${
+                        d.tone === "overdue" ? "text-[color:var(--color-cyber-red)]" :
+                        d.tone === "today" ? "text-[color:var(--color-cyber-cyan)]" :
+                        d.tone === "soon" ? "text-[color:var(--color-cyber-amber)]" :
+                        "text-muted-foreground"
                       }`}>{d.label}</span>
                     </li>
                   );
@@ -140,20 +180,47 @@ function Dashboard() {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader><CardTitle>Daily goals</CardTitle></CardHeader>
+        <Card className="cyber-card accent-purple">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-xs uppercase tracking-[0.2em] text-muted-foreground" style={{ fontFamily: "var(--font-mono)" }}>
+              // daily.objectives
+            </CardTitle>
+          </CardHeader>
           <CardContent className="space-y-3">
             <form onSubmit={addGoal} className="flex gap-2">
-              <Input value={newGoal} onChange={(e) => setNewGoal(e.target.value)} placeholder="Add a goal for today..." />
-              <Button type="submit">Add</Button>
+              <Input
+                value={newGoal}
+                onChange={(e) => setNewGoal(e.target.value)}
+                placeholder="> input new objective..."
+                className="input-caret bg-black/40 border-[color:var(--color-cyber-cyan)]/30 focus-visible:border-[color:var(--color-cyber-cyan)] focus-visible:ring-[color:var(--color-cyber-cyan)]/30"
+                style={{ fontFamily: "var(--font-mono)" }}
+              />
+              <Button type="submit" className="cyber-btn">EXEC</Button>
             </form>
             <ul className="space-y-2">
-              {goals.length === 0 && <li className="text-sm text-muted-foreground">No goals yet for today.</li>}
+              {goals.length === 0 && (
+                <li className="text-sm text-muted-foreground" style={{ fontFamily: "var(--font-mono)" }}>
+                  {">"} no objectives queued
+                </li>
+              )}
               {goals.map((g) => (
-                <li key={g.id} className="flex items-center gap-2 rounded-lg border border-border bg-card/50 p-2.5">
+                <li
+                  key={g.id}
+                  className="flex items-center gap-2 rounded-md border border-[color:var(--color-cyber-cyan)]/15 bg-black/30 p-2.5"
+                >
                   <Checkbox checked={g.done} onCheckedChange={() => toggleGoal(g)} />
-                  <span className={`flex-1 text-sm ${g.done ? "line-through text-muted-foreground" : ""}`}>{g.text}</span>
-                  <button aria-label={`Delete goal: ${g.text}`} onClick={() => deleteGoal(g.id)} className="text-muted-foreground hover:text-destructive">
+                  <span
+                    className={`flex-1 text-sm ${g.done ? "text-[color:var(--color-cyber-green)] line-through" : "text-foreground"}`}
+                    style={{ fontFamily: g.done ? "var(--font-mono)" : undefined }}
+                  >
+                    {g.done && <span className="mr-1 text-[color:var(--color-cyber-green)]">[DONE ✓]</span>}
+                    {g.text}
+                  </span>
+                  <button
+                    aria-label={`Delete goal: ${g.text}`}
+                    onClick={() => deleteGoal(g.id)}
+                    className="text-muted-foreground hover:text-[color:var(--color-cyber-red)]"
+                  >
                     <Trash2 className="h-4 w-4" />
                   </button>
                 </li>
@@ -166,15 +233,42 @@ function Dashboard() {
   );
 }
 
-function Stat({ icon: Icon, label, value, tone }: { icon: React.ElementType; label: string; value: number | string; tone?: "destructive" | "accent" }) {
+function Stat({
+  icon: Icon,
+  label,
+  value,
+  tone,
+}: {
+  icon: React.ElementType;
+  label: string;
+  value: number | string;
+  tone?: "destructive" | "success" | "warning";
+}) {
+  const color =
+    tone === "destructive" ? "var(--color-cyber-red)" :
+    tone === "success" ? "var(--color-cyber-green)" :
+    tone === "warning" ? "var(--color-cyber-amber)" :
+    "var(--color-cyber-cyan)";
+  const isNumber = typeof value === "number";
   return (
-    <Card>
+    <Card className="cyber-card overflow-hidden">
       <CardContent className="p-4">
         <div className="flex items-center justify-between">
-          <span className="text-xs uppercase tracking-wider text-muted-foreground">{label}</span>
-          <Icon className={`h-4 w-4 ${tone === "destructive" ? "text-destructive" : tone === "accent" ? "text-primary" : "text-muted-foreground"}`} />
+          <span
+            className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            [{label}]
+          </span>
+          <Icon className="h-3.5 w-3.5" style={{ color }} />
         </div>
-        <div className="mt-2 text-2xl font-bold">{value}</div>
+        <div
+          className="mt-2 text-3xl font-bold tabular-nums"
+          style={{ color, fontFamily: "var(--font-mono)", textShadow: `0 0 12px ${color}55` }}
+        >
+          {isNumber ? <CountUp value={value as number} /> : value}
+        </div>
+        <div className="mt-1 h-px w-full bg-gradient-to-r from-transparent via-current to-transparent opacity-30" style={{ color }} />
       </CardContent>
     </Card>
   );
