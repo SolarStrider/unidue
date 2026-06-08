@@ -83,6 +83,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Studiq — Your global college task tracker" },
       { name: "description", content: "Track assignments, deadlines, grades and study sessions. Free forever for students worldwide." },
       { name: "author", content: "SolarStrider" },
+      { name: "google-site-verification", content: "2Yh5Yq7vO26VE42iruV4x37YIo9Hx769RE5xc-liI4w" },
       { property: "og:title", content: "Studiq — Your global college task tracker" },
       { property: "og:description", content: "Track assignments, deadlines, grades and study sessions. Free forever for students worldwide." },
       { property: "og:type", content: "website" },
