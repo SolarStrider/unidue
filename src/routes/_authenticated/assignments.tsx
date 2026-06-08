@@ -20,10 +20,10 @@ export const Route = createFileRoute("/_authenticated/assignments")({
   component: AssignmentsPage,
   head: () => ({
     meta: [
-      { title: "Assignments | Studiq" },
-      { name: "description", content: "Manage college assignments, deadlines, priorities, and progress in one place." },
-      { property: "og:title", content: "Assignments | Studiq" },
-      { property: "og:description", content: "Manage college assignments, deadlines, priorities, and progress in one place." },
+      { title: "Assignments | Unidue" },
+      { name: "description", content: "Manage college assignments, deadlines, priorities, and progress in the Unidue terminal." },
+      { property: "og:title", content: "Assignments | Unidue" },
+      { property: "og:description", content: "Manage college assignments, deadlines, priorities, and progress in the Unidue terminal." },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -139,10 +139,17 @@ function AssignmentsPage() {
     <div className="space-y-5 max-w-7xl mx-auto">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Assignments</h1>
-          <p className="text-sm text-muted-foreground">Add, edit and track every piece of coursework.</p>
+          <div className="text-[11px] uppercase tracking-[0.3em] text-muted-foreground" style={{ fontFamily: "var(--font-mono)" }}>
+            unidue@shell ~ /assignments %
+          </div>
+          <h1 className="text-2xl md:text-3xl text-[color:var(--color-cyber-cyan)] [text-shadow:0_0_12px_rgba(0,245,255,0.45)]">
+            {">"} TASK_QUEUE.LS
+          </h1>
+          <p className="text-xs text-muted-foreground" style={{ fontFamily: "var(--font-mono)" }}>
+            {">"} {items.length} entries indexed
+          </p>
         </div>
-        <Button onClick={openNew}><Plus className="mr-1 h-4 w-4" /> New assignment</Button>
+        <Button onClick={openNew} className="cyber-btn h-10"><Plus className="mr-1 h-4 w-4" /> exec new task</Button>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -174,31 +181,51 @@ function AssignmentsPage() {
 
       <div className="grid gap-3">
         {filtered.length === 0 && (
-          <Card><CardContent className="p-8 text-center text-sm text-muted-foreground">No assignments match your filters yet.</CardContent></Card>
+          <Card className="cyber-card"><CardContent className="p-8 text-center text-sm text-muted-foreground" style={{ fontFamily: "var(--font-mono)" }}>{">"} no records match query</CardContent></Card>
         )}
         {filtered.map((a) => {
           const d = dueLabel(a.due_date);
-          const borderColor = a.priority === "high" ? "var(--priority-high)" : a.priority === "medium" ? "var(--priority-medium)" : "var(--priority-low)";
+          const prioColor = a.priority === "high" ? "var(--color-cyber-red)" : a.priority === "medium" ? "var(--color-cyber-amber)" : "var(--color-cyber-green)";
+          const prioLabel = a.priority.toUpperCase();
+          const done = a.status === "completed";
+          const isOverdue = d.tone === "overdue" && !done;
           return (
-            <Card key={a.id} style={{ borderLeft: `4px solid ${borderColor}` }}>
+            <Card key={a.id} className="cyber-card" style={{ borderLeft: `3px solid ${prioColor}` }}>
               <CardContent className="p-4">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <h2 className={`text-base font-semibold ${a.status === "completed" ? "line-through text-muted-foreground" : ""}`}>{a.title}</h2>
-                      <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] uppercase tracking-wide text-muted-foreground">{a.type}</span>
-                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${
-                        d.tone === "overdue" ? "bg-destructive/20 text-destructive" :
-                        d.tone === "today" ? "bg-primary/20 text-primary" :
-                        d.tone === "soon" ? "bg-yellow-500/20 text-yellow-500" :
-                        "bg-muted text-muted-foreground"
-                      }`}>{d.label}</span>
+                    <div className="flex items-center gap-2 flex-wrap" style={{ fontFamily: "var(--font-mono)" }}>
+                      <span className="text-[11px] text-muted-foreground">$</span>
+                      <h2 className={`text-base font-semibold ${done ? "text-[color:var(--color-cyber-green)] line-through" : "text-foreground"}`}>
+                        {a.title}
+                      </h2>
+                      <span className="terminal-tag text-muted-foreground">[{a.type}]</span>
+                      <span className="terminal-tag" style={{ color: prioColor }}>[{prioLabel}]</span>
+                      {done ? (
+                        <span className="terminal-tag text-[color:var(--color-cyber-green)]">[DONE ✓]</span>
+                      ) : isOverdue ? (
+                        <span className="terminal-tag text-[color:var(--color-cyber-red)] [text-shadow:0_0_8px_rgba(255,51,102,0.7)]">
+                          [ALERT: OVERDUE]
+                        </span>
+                      ) : (
+                        <span className={`terminal-tag ${
+                          d.tone === "today" ? "text-[color:var(--color-cyber-cyan)]" :
+                          d.tone === "soon" ? "text-[color:var(--color-cyber-amber)]" :
+                          "text-muted-foreground"
+                        }`}>[{d.label.toUpperCase()}]</span>
+                      )}
                     </div>
-                    <div className="mt-1 text-xs text-muted-foreground">{a.subject} · Due {formatDate(a.due_date, profile?.date_format)}</div>
-                    {a.notes && <p className="mt-2 text-sm text-foreground/80">{a.notes}</p>}
+                    <div className="mt-1 text-[11px] text-muted-foreground" style={{ fontFamily: "var(--font-mono)" }}>
+                      [{a.subject}] · due {formatDate(a.due_date, profile?.date_format)}
+                    </div>
+                    {a.notes && (
+                      <p className={`mt-2 text-sm ${done ? "text-[color:var(--color-cyber-green)]/80" : "text-foreground/80"}`} style={{ fontFamily: "var(--font-mono)" }}>
+                        {">"} {a.notes}
+                      </p>
+                    )}
                   </div>
                   <div className="flex flex-wrap items-center gap-1.5">
-                    <Button size="sm" variant={a.status === "completed" ? "outline" : "default"} onClick={() => toggleComplete(a)}>
+                    <Button size="sm" variant="outline" className="cyber-btn h-8" onClick={() => toggleComplete(a)}>
                       {a.status === "completed" ? <><RotateCcw className="h-4 w-4 mr-1" />Reopen</> : <><CheckCircle2 className="h-4 w-4 mr-1" />Done</>}
                     </Button>
                     <Button size="icon" variant="ghost" asChild>
