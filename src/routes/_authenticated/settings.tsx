@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { LogOut } from "lucide-react";
+import { LogOut, Palette } from "lucide-react";
 import { toast } from "sonner";
 import { GRADING_SYSTEM_NAMES } from "@/lib/studiq/grading-systems";
 
@@ -23,6 +23,14 @@ export const Route = createFileRoute("/_authenticated/settings")({
     ],
   }),
 });
+
+const THEMES = [
+  { key: "cyan", label: "CYAN", code: "//default", color: "#00f5ff" },
+  { key: "green", label: "MATRIX", code: "//green", color: "#00ff88" },
+  { key: "purple", label: "SYNTH", code: "//purple", color: "#b388ff" },
+  { key: "amber", label: "AMBER", code: "//warn", color: "#ffaa00" },
+  { key: "red", label: "BLOOD", code: "//danger", color: "#ff3366" },
+];
 
 function SettingsPage() {
   const navigate = useNavigate();
@@ -49,8 +57,50 @@ function SettingsPage() {
     <div className="space-y-6 max-w-3xl mx-auto">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
-        <p className="text-sm text-muted-foreground">Personalize Studiq to your study style.</p>
+        <p className="text-sm text-muted-foreground" style={{ fontFamily: "var(--font-mono)" }}>
+          &gt; configure_user_shell --interactive
+        </p>
       </div>
+
+      <Card className="cyber-card">
+        <CardHeader>
+          <CardTitle
+            className="flex items-center gap-2 text-xs uppercase tracking-[0.2em]"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            <Palette className="h-4 w-4" /> [ ACCENT_COLOR ]
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+            {THEMES.map((t) => {
+              const active = (profile?.theme || "cyan") === t.key;
+              return (
+                <button
+                  key={t.key}
+                  onClick={() => update({ theme: t.key })}
+                  className="group relative rounded-sm border p-3 text-left transition"
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    background: "rgba(8,8,16,0.6)",
+                    borderColor: active ? t.color : "rgba(255,255,255,0.08)",
+                    boxShadow: active ? `0 0 0 1px ${t.color}55, 0 0 24px -8px ${t.color}` : "none",
+                  }}
+                >
+                  <div
+                    className="h-6 w-6 rounded-full mb-2"
+                    style={{ background: t.color, boxShadow: `0 0 12px ${t.color}` }}
+                  />
+                  <div className="text-[11px] font-semibold tracking-[0.15em]" style={{ color: t.color }}>
+                    {active ? `> ${t.label}` : t.label}
+                  </div>
+                  <div className="text-[10px] text-muted-foreground">{t.code}</div>
+                </button>
+              );
+            })}
+          </div>
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader><CardTitle>Preferences</CardTitle></CardHeader>
