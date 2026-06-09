@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { LogOut, Palette } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { toast } from "sonner";
 import { GRADING_SYSTEM_NAMES } from "@/lib/studiq/grading-systems";
 
@@ -23,14 +23,6 @@ export const Route = createFileRoute("/_authenticated/settings")({
     ],
   }),
 });
-
-const THEMES = [
-  { key: "midnight", label: "Midnight", color: "#6c63ff", bg: "#0f0f1a" },
-  { key: "ocean", label: "Ocean", color: "#4aa8ff", bg: "#0a1628" },
-  { key: "forest", label: "Forest", color: "#3fd07a", bg: "#0d1f15" },
-  { key: "sunset", label: "Sunset", color: "#ff7a5c", bg: "#1f0d0a" },
-  { key: "light", label: "Light", color: "#6c63ff", bg: "#ffffff" },
-];
 
 function SettingsPage() {
   const navigate = useNavigate();
@@ -59,25 +51,6 @@ function SettingsPage() {
         <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
         <p className="text-sm text-muted-foreground">Personalize Studiq to your study style.</p>
       </div>
-
-      <Card>
-        <CardHeader><CardTitle className="flex items-center gap-2"><Palette className="h-4 w-4" /> Theme</CardTitle></CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-            {THEMES.map((t) => (
-              <button
-                key={t.key}
-                onClick={() => update({ theme: t.key })}
-                className={`rounded-xl border-2 p-3 text-left transition ${profile?.theme === t.key ? "border-primary ring-2 ring-primary/40" : "border-border hover:border-primary/50"}`}
-                style={{ background: t.bg, color: t.key === "light" ? "#111" : "#fff" }}
-              >
-                <div className="h-8 w-8 rounded-full mb-2" style={{ background: t.color }} />
-                <div className="text-xs font-semibold">{t.label}</div>
-              </button>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
 
       <Card>
         <CardHeader><CardTitle>Preferences</CardTitle></CardHeader>
