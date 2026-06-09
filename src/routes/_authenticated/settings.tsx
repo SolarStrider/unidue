@@ -146,17 +146,59 @@ function SettingsPage() {
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader><CardTitle>About</CardTitle></CardHeader>
-        <CardContent className="space-y-2 text-sm">
-          <p><span className="font-semibold text-foreground">Studiq</span> — Your global college task tracker.</p>
-          <p className="text-muted-foreground">Made by <span className="font-semibold text-primary">SolarStrider</span></p>
-          <p className="text-muted-foreground">Free forever for students worldwide.</p>
+      <Card className="cyber-card">
+        <CardHeader>
+          <CardTitle
+            className="text-xs uppercase tracking-[0.2em]"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            [ SYSTEM_INFO ]
+          </CardTitle>
+        </CardHeader>
+        <CardContent
+          className="space-y-1 text-[12px] leading-relaxed"
+          style={{ fontFamily: "var(--font-mono)" }}
+        >
+          <p>
+            <span className="text-muted-foreground">$ whoami</span>
+            <br />
+            <span className="text-[color:var(--color-cyber-cyan)]">UNIDUE</span>
+            <span className="text-muted-foreground"> v1.0.0 // student.os</span>
+          </p>
+          <p className="pt-2">
+            <span className="text-muted-foreground">$ cat ./about.md</span>
+            <br />
+            <span className="text-foreground">
+              A cyberpunk command center for students.
+            </span>
+            <br />
+            <span className="text-muted-foreground">
+              // assignments · grades · calendar · pomodoro
+            </span>
+          </p>
+          <p className="pt-2">
+            <span className="text-muted-foreground">$ author</span>
+            <br />
+            <span className="text-[color:var(--color-cyber-green)]">
+              &gt; SolarStrider
+            </span>
+          </p>
+          <p className="pt-2">
+            <span className="text-muted-foreground">$ license</span>
+            <br />
+            <span className="text-[color:var(--color-cyber-amber)]">
+              [ FREE_FOREVER ]
+            </span>
+            <span className="text-muted-foreground"> — students worldwide</span>
+          </p>
         </CardContent>
       </Card>
 
-      <p className="text-center text-xs text-muted-foreground pt-4">
-        Made by SolarStrider · Free forever for students worldwide
+      <p
+        className="text-center text-[10px] uppercase tracking-[0.25em] text-muted-foreground pt-4"
+        style={{ fontFamily: "var(--font-mono)" }}
+      >
+        // unidue.shell — built by SolarStrider
       </p>
     </div>
   );
