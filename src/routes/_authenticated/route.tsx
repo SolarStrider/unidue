@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/studiq/app-sidebar";
 import { ThemeApplier } from "@/components/studiq/theme-applier";
+import { ThemeSwitcher } from "@/components/studiq/theme-switcher";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
@@ -37,6 +38,9 @@ function AuthenticatedLayout() {
               <span>sys.online</span>
               <span className="opacity-40">|</span>
               <span className="tabular-nums">{new Date().toISOString().slice(0, 10)}</span>
+            </div>
+            <div className="ml-auto sm:ml-3">
+              <ThemeSwitcher />
             </div>
           </header>
           <main className="flex-1 p-4 md:p-6">
