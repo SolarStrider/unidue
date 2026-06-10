@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedQuizRouteImport } from './routes/_authenticated/quiz'
 import { Route as AuthenticatedPomodoroRouteImport } from './routes/_authenticated/pomodoro'
 import { Route as AuthenticatedNotesRouteImport } from './routes/_authenticated/notes'
 import { Route as AuthenticatedGradesRouteImport } from './routes/_authenticated/grades'
@@ -49,6 +50,11 @@ const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
 const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedQuizRoute = AuthenticatedQuizRouteImport.update({
+  id: '/quiz',
+  path: '/quiz',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedPomodoroRoute = AuthenticatedPomodoroRouteImport.update({
@@ -94,6 +100,7 @@ export interface FileRoutesByFullPath {
   '/grades': typeof AuthenticatedGradesRoute
   '/notes': typeof AuthenticatedNotesRoute
   '/pomodoro': typeof AuthenticatedPomodoroRoute
+  '/quiz': typeof AuthenticatedQuizRoute
   '/settings': typeof AuthenticatedSettingsRoute
 }
 export interface FileRoutesByTo {
@@ -106,6 +113,7 @@ export interface FileRoutesByTo {
   '/grades': typeof AuthenticatedGradesRoute
   '/notes': typeof AuthenticatedNotesRoute
   '/pomodoro': typeof AuthenticatedPomodoroRoute
+  '/quiz': typeof AuthenticatedQuizRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/': typeof AuthenticatedIndexRoute
 }
@@ -121,6 +129,7 @@ export interface FileRoutesById {
   '/_authenticated/grades': typeof AuthenticatedGradesRoute
   '/_authenticated/notes': typeof AuthenticatedNotesRoute
   '/_authenticated/pomodoro': typeof AuthenticatedPomodoroRoute
+  '/_authenticated/quiz': typeof AuthenticatedQuizRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
 }
@@ -137,6 +146,7 @@ export interface FileRouteTypes {
     | '/grades'
     | '/notes'
     | '/pomodoro'
+    | '/quiz'
     | '/settings'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -149,6 +159,7 @@ export interface FileRouteTypes {
     | '/grades'
     | '/notes'
     | '/pomodoro'
+    | '/quiz'
     | '/settings'
     | '/'
   id:
@@ -163,6 +174,7 @@ export interface FileRouteTypes {
     | '/_authenticated/grades'
     | '/_authenticated/notes'
     | '/_authenticated/pomodoro'
+    | '/_authenticated/quiz'
     | '/_authenticated/settings'
     | '/_authenticated/'
   fileRoutesById: FileRoutesById
@@ -218,6 +230,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/quiz': {
+      id: '/_authenticated/quiz'
+      path: '/quiz'
+      fullPath: '/quiz'
+      preLoaderRoute: typeof AuthenticatedQuizRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/pomodoro': {
       id: '/_authenticated/pomodoro'
       path: '/pomodoro'
@@ -270,6 +289,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedGradesRoute: typeof AuthenticatedGradesRoute
   AuthenticatedNotesRoute: typeof AuthenticatedNotesRoute
   AuthenticatedPomodoroRoute: typeof AuthenticatedPomodoroRoute
+  AuthenticatedQuizRoute: typeof AuthenticatedQuizRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
@@ -281,6 +301,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedGradesRoute: AuthenticatedGradesRoute,
   AuthenticatedNotesRoute: AuthenticatedNotesRoute,
   AuthenticatedPomodoroRoute: AuthenticatedPomodoroRoute,
+  AuthenticatedQuizRoute: AuthenticatedQuizRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
 }
