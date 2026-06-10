@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, ListChecks, CalendarDays, GraduationCap, Timer, Settings, Terminal } from "lucide-react";
+import { LayoutDashboard, ListChecks, CalendarDays, GraduationCap, Timer, Settings, Terminal, FileText, Layers, HelpCircle, Bookmark, Cpu } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent,
   SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
@@ -9,8 +9,13 @@ const items = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
   { title: "Assignments", url: "/assignments", icon: ListChecks },
   { title: "Calendar", url: "/calendar", icon: CalendarDays },
+  { title: "Notes", url: "/notes", icon: FileText },
+  { title: "Flashcards", url: "/flashcards", icon: Layers },
+  { title: "Quiz", url: "/quiz", icon: HelpCircle },
+  { title: "Bookmarks", url: "/bookmarks", icon: Bookmark },
   { title: "Grades", url: "/grades", icon: GraduationCap },
   { title: "Pomodoro", url: "/pomodoro", icon: Timer },
+  { title: "AI Config", url: "/ai-config", icon: Cpu },
   { title: "Settings", url: "/settings", icon: Settings },
 ];
 

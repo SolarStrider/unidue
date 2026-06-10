@@ -14,11 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_settings: {
+        Row: {
+          default_provider: string
+          module_config: Json
+          providers: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          default_provider?: string
+          module_config?: Json
+          providers?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          default_provider?: string
+          module_config?: Json
+          providers?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       assignments: {
         Row: {
           completed_at: string | null
           created_at: string
           due_date: string
+          google_event_id: string | null
           id: string
           notes: string
           priority: string
@@ -33,6 +58,7 @@ export type Database = {
           completed_at?: string | null
           created_at?: string
           due_date: string
+          google_event_id?: string | null
           id?: string
           notes?: string
           priority?: string
@@ -47,6 +73,7 @@ export type Database = {
           completed_at?: string | null
           created_at?: string
           due_date?: string
+          google_event_id?: string | null
           id?: string
           notes?: string
           priority?: string
@@ -55,6 +82,36 @@ export type Database = {
           title?: string
           type?: string
           updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      bookmarks: {
+        Row: {
+          created_at: string
+          id: string
+          item_id: string
+          item_type: string
+          label: string
+          subject: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          item_id: string
+          item_type: string
+          label?: string
+          subject?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          item_id?: string
+          item_type?: string
+          label?: string
+          subject?: string
           user_id?: string
         }
         Relationships: []
@@ -82,6 +139,121 @@ export type Database = {
           done?: boolean
           id?: string
           text?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      flashcard_decks: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          source_note_id: string | null
+          subject: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          source_note_id?: string | null
+          subject?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          source_note_id?: string | null
+          subject?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "flashcard_decks_source_note_id_fkey"
+            columns: ["source_note_id"]
+            isOneToOne: false
+            referencedRelation: "notes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      flashcards: {
+        Row: {
+          back: string
+          created_at: string
+          deck_id: string
+          ease: number
+          front: string
+          id: string
+          interval_days: number
+          next_review: string
+          times_known: number
+          times_review: number
+          user_id: string
+        }
+        Insert: {
+          back: string
+          created_at?: string
+          deck_id: string
+          ease?: number
+          front: string
+          id?: string
+          interval_days?: number
+          next_review?: string
+          times_known?: number
+          times_review?: number
+          user_id: string
+        }
+        Update: {
+          back?: string
+          created_at?: string
+          deck_id?: string
+          ease?: number
+          front?: string
+          id?: string
+          interval_days?: number
+          next_review?: string
+          times_known?: number
+          times_review?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "flashcards_deck_id_fkey"
+            columns: ["deck_id"]
+            isOneToOne: false
+            referencedRelation: "flashcard_decks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      google_calendar_connections: {
+        Row: {
+          calendar_id: string
+          connection_api_key: string
+          created_at: string
+          sync_enabled: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          calendar_id?: string
+          connection_api_key: string
+          created_at?: string
+          sync_enabled?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          calendar_id?: string
+          connection_api_key?: string
+          created_at?: string
+          sync_enabled?: boolean
+          updated_at?: string
           user_id?: string
         }
         Relationships: []
@@ -116,6 +288,56 @@ export type Database = {
         }
         Relationships: []
       }
+      notes: {
+        Row: {
+          ai_summary: string
+          assignment_id: string | null
+          content: string
+          created_at: string
+          id: string
+          pinned: boolean
+          subject: string
+          tags: string[]
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          ai_summary?: string
+          assignment_id?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          pinned?: boolean
+          subject?: string
+          tags?: string[]
+          title?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          ai_summary?: string
+          assignment_id?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          pinned?: boolean
+          subject?: string
+          tags?: string[]
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notes_assignment_id_fkey"
+            columns: ["assignment_id"]
+            isOneToOne: false
+            referencedRelation: "assignments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
@@ -143,6 +365,80 @@ export type Database = {
           name?: string
           theme?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      quiz_attempts: {
+        Row: {
+          answers: Json
+          id: string
+          quiz_id: string
+          score: number
+          taken_at: string
+          total: number
+          user_id: string
+        }
+        Insert: {
+          answers?: Json
+          id?: string
+          quiz_id: string
+          score?: number
+          taken_at?: string
+          total?: number
+          user_id: string
+        }
+        Update: {
+          answers?: Json
+          id?: string
+          quiz_id?: string
+          score?: number
+          taken_at?: string
+          total?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quiz_attempts_quiz_id_fkey"
+            columns: ["quiz_id"]
+            isOneToOne: false
+            referencedRelation: "quizzes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quizzes: {
+        Row: {
+          created_at: string
+          difficulty: string
+          id: string
+          name: string
+          questions: Json
+          source_id: string | null
+          source_label: string
+          source_type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          difficulty?: string
+          id?: string
+          name: string
+          questions?: Json
+          source_id?: string | null
+          source_label?: string
+          source_type?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          difficulty?: string
+          id?: string
+          name?: string
+          questions?: Json
+          source_id?: string | null
+          source_label?: string
+          source_type?: string
+          user_id?: string
         }
         Relationships: []
       }
