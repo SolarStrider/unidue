@@ -32,7 +32,7 @@ function QuizPage() {
 
   async function load() {
     const { data } = await supabase.from("quizzes").select("*").order("created_at", { ascending: false });
-    const qs = (data || []) as Quiz[];
+    const qs = (data || []) as unknown as Quiz[];
     setQuizzes(qs);
     const { data: atts } = await supabase.from("quiz_attempts").select("*").order("taken_at", { ascending: false });
     const map: Record<string, Attempt> = {};
